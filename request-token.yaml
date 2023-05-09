@@ -1,0 +1,240 @@
+---
+openapi: 3.0.0
+info:
+  title: REQUEST ACCESS TOKEN
+  contact: {}
+  version: 1.0.0
+servers:
+- url: https://dev.nicepay.co.id/nicepay/v1.0/access-token
+- url: https://staging.nicepay.co.id/nicepay/v1.0/access-token
+- url: https://www.nicepay.co.id/nicepay/v1.0/access-token
+paths:
+  /b2b:
+    post:
+      tags:
+      - Request Access Token
+      summary: REQUEST ACCESS TOKEN
+      operationId: REQUEST ACCESS TOKEN
+      parameters:
+      - name: X-SIGNATURE
+        in: header
+        description: ""
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: Bo7OlSFPU0yADUBWjBmOc4ELo79bXK3PkhHN2N7DEZUOA3/uzMwdSJ497bBfaB3lVbPh1w3CzpkwEYwRh1CEpeYKrW8wqvfhWGo6LmF3IuBhMxkUTc1Hy9dqLAUsOBljp9FmUdxDQwYussoX9KmYQwT6Kt2sgpv6e+ferxiONCk=
+      - name: X-CLIENT-KEY
+        in: header
+        description: ""
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: IONPAYTEST
+      - name: X-TIMESTAMP
+        in: header
+        description: ""
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: 2022-03-28T23:59:59+07:00
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/b2b_body'
+            example:
+              grantType: client_credentials
+              additionalInfo: {}
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Successful:
+                  description: Successful
+                  value:
+                    responseCode: "0000"
+                    responseMessage: Successful
+                    accessToken: Xy8duZzAvv9bwDXxRxcb89tsuvk4MF4kx4lGfE4aCRVxR7XdERhbe1
+                    tokenType: Bearer
+                    expiresIn: "900"
+        "202":
+          description: Request In Progress
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Request In Progress:
+                  description: Request In Progress
+                  value:
+                    responseCode: 202XX00
+                    responseMessage: Request In Progress
+        "401":
+          description: "Unauthorized [reason]"
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Unauthorized [reason]:
+                  description: "Unauthorized [reason]"
+                  value:
+                    responseCode: 401XX00
+                    responseMessage: "Unauthorized [reason]"
+                Access Token Invalid:
+                  description: Access Token Invalid
+                  value:
+                    responseCode: 401XX01
+                    responseMessage: Access Token Invalid
+        "400":
+          description: "Invalid Field Format {field name}"
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Invalid Field Format {field name}:
+                  description: "Invalid Field Format {field name}"
+                  value:
+                    responseCode: 400XX01
+                    responseMessage: "Invalid Field Format {field name}"
+                Invalid Mandatory Field {field name}:
+                  description: "Invalid Mandatory Field {field name}"
+                  value:
+                    responseCode: 400XX02
+                    responseMessage: "Invalid Mandatory Field {field name}"
+        "403":
+          description: Feature Not Allowed
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Feature Not Allowed:
+                  description: Feature Not Allowed
+                  value:
+                    responseCode: 403XX01
+                    responseMessage: Feature Not Allowed
+                Exceeds Transaction Amount Limit:
+                  description: Exceeds Transaction Amount Limit
+                  value:
+                    responseCode: 403XX02
+                    responseMessage: Exceeds Transaction Amount Limit
+                Do Not Honor:
+                  description: Do Not Honor
+                  value:
+                    responseCode: 403XX05
+                    responseMessage: Do Not Honor
+                Insufficient Funds:
+                  description: Insufficient Funds
+                  value:
+                    responseCode: 403XX14
+                    responseMessage: Insufficient Funds
+                Transaction Not Permitted [reason]:
+                  description: "Transaction Not Permitted [reason]"
+                  value:
+                    responseCode: 403XX15
+                    responseMessage: "Transaction Not Permitted [reason]"
+                Set Limit Not Allowed:
+                  description: Set Limit Not Allowed
+                  value:
+                    responseCode: 403XX21
+                    responseMessage: Set Limit Not Allowed
+                Account Limit Exceed:
+                  description: Account Limit Exceed
+                  value:
+                    responseCode: 403XX23
+                    responseMessage: Account Limit Exceed
+        "404":
+          description: Invalid Account
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Invalid Account:
+                  description: Invalid Account
+                  value:
+                    responseCode: 404XX11
+                    responseMessage: Invalid Account
+                Account Inactive:
+                  description: Account Inactive
+                  value:
+                    responseCode: 404XX18
+                    responseMessage: Account Inactive
+                Bank Not Supported By Switch:
+                  description: Bank Not Supported By Switch
+                  value:
+                    responseCode: 404XX03
+                    responseMessage: Bank Not Supported By Switch
+                Paid Bill:
+                  description: Paid Bill
+                  value:
+                    responseCode: 404XX13
+                    responseMessage: Paid Bill
+                Invalid Virtual Account:
+                  description: Invalid Virtual Account
+                  value:
+                    responseCode: 404XX19
+                    responseMessage: Invalid Virtual Account
+        "409":
+          description: Duplicate partnerReferenceNo
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Duplicate partnerReferenceNo:
+                  description: Duplicate partnerReferenceNo
+                  value:
+                    responseCode: 409XX01
+                    responseMessage: Duplicate partnerReferenceNo
+        "500":
+          description: General Error
+          content:
+            application/json:
+              schema: {}
+              examples:
+                General Error:
+                  description: General Error
+                  value:
+                    responseCode: 500XX00
+                    responseMessage: General Error
+        "504":
+          description: Request Timeout
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Request Timeout:
+                  description: Request Timeout
+                  value:
+                    responseCode: 504XX00
+                    responseMessage: Request Timeout
+components:
+  schemas:
+    Request-Access-Token:
+      title: Request Access Token
+      required:
+      - grantType
+      type: object
+      properties:
+        grantType:
+          type: string
+          description: Only “client_credentials”
+          example: client_credentials
+        additionalInfo:
+          type: object
+          description: ""
+          example: {}
+    b2b_body:
+      allOf:
+      - $ref: '#/components/schemas/Request-Access-Token'
+      - example:
+          grantType: client_credentials
+          additionalInfo: {}

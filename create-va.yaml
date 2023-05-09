@@ -1,0 +1,372 @@
+---
+openapi: 3.0.0
+info:
+  title: CREATE VA
+  contact: {}
+  version: 1.0.1
+servers:
+- url: https://dev.nicepay.co.id/nicepay/api/v1.0/transfer-va
+- url: https://staging.nicepay.co.id/nicepay/api/v1.0/transfer-va
+- url: https://www.nicepay.co.id/nicepay/api/v1.0/transfer-va
+paths:
+  /create-va:
+    post:
+      tags:
+      - Create VA
+      summary: CREATE VA
+      operationId: CREATE VA
+      parameters:
+      - name: X-TIMESTAMP
+        in: header
+        description: ""
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: 2023-04-27T23:59:59+07:00
+      - name: X-SIGNATURE
+        in: header
+        description: ""
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: ryAMsyOKI6uDStheQRo0c+5+gb+Y0gzoNOHR240GfmbT1t3IbT0KZF5X28gxxfcoHuAIAegYZHT1s+Z1PoEv8Q==
+      - name: X-PARTNER-ID
+        in: header
+        description: ""
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: IONPAYTEST
+      - name: X-EXTERNAL-ID
+        in: header
+        description: ""
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: "20230426230106"
+      - name: CHANNEL-ID
+        in: header
+        description: ""
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: IONPAYTEST
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createva_body'
+            example:
+              partnerServiceId: ""
+              customerNo: ""
+              virtualAccountNo: ""
+              virtualAccountName: Jhon Doe
+              trxId: "2023123100000000000001"
+              totalAmount:
+                value: "10000.00"
+                currency: IDR
+              additionalInfo:
+                bankCd: BMRI
+                goodsNm: John Doe
+                dbProcessUrl: https://dev.nicepay.co.id/IONPAY_CLIENT/paymentResult.jsp
+                vacctValidDt: ""
+                vacctValidTm: ""
+                msId: ""
+                msFee: ""
+                msFeeType: ""
+                mbFee: ""
+                mbFeeType: ""
+        required: true
+      responses:
+        "200":
+          description: Successful
+          content:
+            application/json:
+              schema: {}
+              example:
+                description: Successful
+                value:
+                  responseCode: "2002700"
+                  responseMessage: Successful
+                  virtualAccountData:
+                    partnerServiceId: ""
+                    customerNo: ""
+                    virtualAccountNo: "70014000091511466666"
+                    virtualAccountName: Jhon Doe
+                    trxId: "2023123100000000000001"
+                    totalAmount:
+                      value: "10000.00"
+                      currency: IDR
+                    additionalInfo:
+                      bankCd: BMRI
+                      tXidVA: IONPAYTEST02202304271511466666
+                      goodsNm: John Doe
+                      vacctValidDt: "20230429"
+                      vacctValidTm: "151146"
+                      msId: ""
+                      msFee: ""
+                      msFeeType: ""
+                      mbFee: ""
+                      mbFeeType: ""
+        "202":
+          description: Request In Progress
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Request In Progress:
+                  description: Request In Progress
+                  value:
+                    responseCode: 202XX00
+                    responseMessage: Request In Progress
+        "401":
+          description: "Unauthorized [reason]"
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Unauthorized [reason]:
+                  description: "Unauthorized [reason]"
+                  value:
+                    responseCode: 401XX00
+                    responseMessage: "Unauthorized [reason]"
+                Access Token Invalid:
+                  description: Access Token Invalid
+                  value:
+                    responseCode: 401XX01
+                    responseMessage: Access Token Invalid
+        "400":
+          description: "Invalid Field Format {field name}"
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Invalid Field Format {field name}:
+                  description: "Invalid Field Format {field name}"
+                  value:
+                    responseCode: 400XX01
+                    responseMessage: "Invalid Field Format {field name}"
+                Invalid Mandatory Field {field name}:
+                  description: "Invalid Mandatory Field {field name}"
+                  value:
+                    responseCode: 400XX02
+                    responseMessage: "Invalid Mandatory Field {field name}"
+        "403":
+          description: Feature Not Allowed
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Feature Not Allowed:
+                  description: Feature Not Allowed
+                  value:
+                    responseCode: 403XX01
+                    responseMessage: Feature Not Allowed
+                Exceeds Transaction Amount Limit:
+                  description: Exceeds Transaction Amount Limit
+                  value:
+                    responseCode: 403XX02
+                    responseMessage: Exceeds Transaction Amount Limit
+                Do Not Honor:
+                  description: Do Not Honor
+                  value:
+                    responseCode: 403XX05
+                    responseMessage: Do Not Honor
+                Insufficient Funds:
+                  description: Insufficient Funds
+                  value:
+                    responseCode: 403XX14
+                    responseMessage: Insufficient Funds
+                Transaction Not Permitted [reason]:
+                  description: "Transaction Not Permitted [reason]"
+                  value:
+                    responseCode: 403XX15
+                    responseMessage: "Transaction Not Permitted [reason]"
+                Set Limit Not Allowed:
+                  description: Set Limit Not Allowed
+                  value:
+                    responseCode: 403XX21
+                    responseMessage: Set Limit Not Allowed
+                Account Limit Exceed:
+                  description: Account Limit Exceed
+                  value:
+                    responseCode: 403XX23
+                    responseMessage: Account Limit Exceed
+        "404":
+          description: Invalid Account
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Invalid Account:
+                  description: Invalid Account
+                  value:
+                    responseCode: 404XX11
+                    responseMessage: Invalid Account
+                Account Inactive:
+                  description: Account Inactive
+                  value:
+                    responseCode: 404XX18
+                    responseMessage: Account Inactive
+                Bank Not Supported By Switch:
+                  description: Bank Not Supported By Switch
+                  value:
+                    responseCode: 404XX03
+                    responseMessage: Bank Not Supported By Switch
+                Paid Bill:
+                  description: Paid Bill
+                  value:
+                    responseCode: 404XX13
+                    responseMessage: Paid Bill
+                Invalid Virtual Account:
+                  description: Invalid Virtual Account
+                  value:
+                    responseCode: 404XX19
+                    responseMessage: Invalid Virtual Account
+        "409":
+          description: Duplicate partnerReferenceNo
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Duplicate partnerReferenceNo:
+                  description: Duplicate partnerReferenceNo
+                  value:
+                    responseCode: 409XX01
+                    responseMessage: Duplicate partnerReferenceNo
+        "500":
+          description: General Error
+          content:
+            application/json:
+              schema: {}
+              examples:
+                General Error:
+                  description: General Error
+                  value:
+                    responseCode: 500XX00
+                    responseMessage: General Error
+        "504":
+          description: Request Timeout
+          content:
+            application/json:
+              schema: {}
+              examples:
+                Request Timeout:
+                  description: Request Timeout
+                  value:
+                    responseCode: 504XX00
+                    responseMessage: Request Timeout
+      security:
+      - Authorization: []
+components:
+  schemas:
+    Create-VA:
+      title: Create-VA
+      required:
+      - bankCd
+      - currency
+      - dbProcessUrl
+      - goodsNm
+      - partnerServiceId
+      - trxId
+      - value
+      - virtualAccountName
+      - virtualAccountNo
+      type: object
+      properties:
+        partnerServiceId:
+          type: string
+        customerNo:
+          type: string
+        virtualAccountNo:
+          type: string
+        virtualAccountName:
+          type: string
+        trxId:
+          type: string
+        totalAmount:
+          type: object
+        value:
+          type: string
+        currency:
+          type: string
+        additionalInfo:
+          type: object
+        bankCd:
+          type: string
+        goodsNm:
+          type: string
+        dbProcessUrl:
+          type: string
+        vacctValidDt:
+          type: string
+        vacctValidTm:
+          type: string
+        msId:
+          type: string
+        msFee:
+          type: string
+        msFeeType:
+          type: string
+        mbFee:
+          type: string
+        mbFeeType:
+          type: string
+      example:
+        partnerServiceId: ""
+        customerNo: ""
+        virtualAccountNo: ""
+        virtualAccountName: Jhon Doe
+        trxId: "2023123100000000000001"
+        totalAmount:
+          value: "10000.00"
+          currency: IDR
+        additionalInfo:
+          bankCd: BMRI
+          goodsNm: John Doe
+          dbProcessUrl: https://dev.nicepay.co.id/IONPAY_CLIENT/paymentResult.jsp
+          vacctValidDt: ""
+          vacctValidTm: ""
+          msId: ""
+          msFee: ""
+          msFeeType: ""
+          mbFee: ""
+          mbFeeType: ""
+    createva_body:
+      allOf:
+      - $ref: '#/components/schemas/Create-VA'
+      - example:
+          partnerServiceId: ""
+          customerNo: ""
+          virtualAccountNo: ""
+          virtualAccountName: Jhon Doe
+          trxId: "2023123100000000000001"
+          totalAmount:
+            value: "10000.00"
+            currency: IDR
+          additionalInfo:
+            bankCd: BMRI
+            goodsNm: John Doe
+            dbProcessUrl: https://dev.nicepay.co.id/IONPAY_CLIENT/paymentResult.jsp
+            vacctValidDt: ""
+            vacctValidTm": ""
+            msId: ""
+            msFee: ""
+            msFeeType: ""
+            mbFee: ""
+            mbFeeType: ""
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
